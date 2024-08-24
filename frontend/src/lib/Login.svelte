@@ -7,7 +7,7 @@
     let currentErr = '';
     const login = async () => {
         try {
-            let response = await fetch('http://localhost:3000/login', {
+            let response = await fetch('http://localhost:5173/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -17,10 +17,15 @@
                     password
                 })
             });
+            let data = await response.json();
             if(response.status < 299) {
                 // good response
-                currentErr = '';
-                user.set(await response.json());
+                if(data.error) {
+                    currentErr = data.error;
+                } else {
+                    currentErr = '';
+                }
+                user.set(data.user);
             } else {
                 currentErr = 'Something went wrong. ' + response.status + ' status';
             }
@@ -34,7 +39,7 @@
 
     const register = async () => {
         try {
-            let response = await fetch('http://localhost:3000/register', {
+            let response = await fetch('http://localhost:5173/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -44,10 +49,15 @@
                     password: Npassword
                 })
             });
+            let data = await response.json();
             if(response.status < 299) {
                 // good response
-                currentErr = '';
-                user.set(await response.json());
+                if(data.error) {
+                    currentErr = data.error;
+                } else {
+                    currentErr = '';
+                }
+                user.set(data.user);
             } else {
                 currentErr = 'Something went wrong. ' + response.status + ' status';
             }

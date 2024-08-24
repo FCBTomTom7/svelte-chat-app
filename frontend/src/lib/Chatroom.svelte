@@ -5,6 +5,7 @@
     const socket = io(SOCKET_URL);
     let message = '';
     let messageContainer;
+    const maxMessages = 100;
     onMount(() => {
         socket.on('message', m => {
             appendMessage(m);
@@ -25,6 +26,18 @@
     }
 
     const appendMessage = (text) => {
+        while(messageContainer.childNodes.length >= maxMessages) {
+            messageContainer.removeChild(messageContainer.firstChild);
+        }
+        // get values from previous last message to determine whether or not to scroll
+        let lastMessage = messageContainer.lastElementChild;
+        let lastMessageStyles = lastMessage ? getComputedStyle(lastMessage) : null;
+        // console.log(lastMessage);
+        // console.log(lastMessageStyles);
+        let visibleHeight = messageContainer.offsetHeight;
+        let newMessageHeight = lastMessage?.offsetHeight;
+
+        // append new message
         let messageFrame = document.createElement('div');
         messageFrame.className = 'message-frame';
         let messageElement = document.createElement('p');
@@ -32,6 +45,19 @@
         messageElement.innerHTML = text;
         messageFrame.appendChild(messageElement);
         messageContainer.appendChild(messageFrame);
+        // console.log('scroll height:', messageContainer.scrollHeight, '\nscroll top:', 
+        // messageContainer.scrollTop, '\nvisible height:', visibleHeight, '\nmessage height:', newMessageHeight);
+        if(messageContainer.scrollTop > 0 && messageContainer.scrollHeight - messageContainer.scrollTop < visibleHeight + newMessageHeight * 1.25) {
+            // scroll
+            autoscroll();
+            
+        }
+        
+        
+    }
+
+    const autoscroll = () => {
+        messageContainer.scrollTop = messageContainer.scrollHeight - messageContainer.offsetHeight;
     }
 </script>
 <svelte:window on:keypress={keyHandler} />
@@ -66,6 +92,7 @@
         width: 100%;
         height: 90%;
         border-bottom: 1px solid black;
+        overflow: scroll;
     }
 
     .input-container {
