@@ -1,8 +1,11 @@
 require('dotenv').config();
 let express = require('express');
 let app = express();
-const session = require('express-session');
-const MongoDBSession = require('connect-mongodb-session')(session);
+let jwt = require('jsonwebtoken');
+let bcrypt = require('bcrypt');
+let UserSchema = require('./models/User');
+// const session = require('express-session');
+// const MongoDBSession = require('connect-mongodb-session')(session);
 const mongoose = require('mongoose');
 let socketIo = require('socket.io');
 let http = require('http').createServer(app);
@@ -10,9 +13,12 @@ let cors = require('cors');
 
 const MongoURI = process.env.MONGO_URI;
 
-// mongoose.connect(MongoURI).then(res => {
-//     console.log('connected');
-// })
+
+
+mongoose.connect(MongoURI).then(res => {
+    console.log('connected');
+})
+const User = mongoose.model('User', UserSchema);
 
 // const store = new MongoDBSession({
 //     uri: MongoURI,
@@ -32,14 +38,24 @@ const io = socketIo(http, {
 const PORT = process.env.PORT;
 
 app.use(cors());
-app.use(express.static('public'));
 app.use(express.json());
 app.use(express.urlencoded({extended: true}))
 
-app.post('/login', (req, res) => {
+app.post('/login', async (req, res) => {
     console.log('l');
+    let username = req.body.username;
+    let password = req.body.password;
     // Find user from database
 
+    
+    
+    User.findOne({username}).then(user => {
+        console.log(user);
+
+    })
+    .catch(err => {
+        console.error(err);
+    })
 
     // Check password
 
@@ -48,7 +64,7 @@ app.post('/login', (req, res) => {
     // otherwise return null
 
     //tmp
-    res.json(true);
+    
 });
 
 app.post('/register', (req, res) => {

@@ -4,7 +4,6 @@ export async function POST({ locals, request, cookies }) {
     // console.log(locals);
     
     // console.log(cookies);
-    console.log(locals);
     if(locals.auth) {
         return json({
             user: {
