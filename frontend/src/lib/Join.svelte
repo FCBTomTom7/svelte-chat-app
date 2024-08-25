@@ -1,1 +1,1 @@
-<h1>Join a room you fuck nigga</h1>
+<h1>Join a room</h1>

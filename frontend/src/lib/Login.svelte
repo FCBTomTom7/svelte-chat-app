@@ -34,6 +34,9 @@
             console.error(err);
             currentErr = err;
         }
+
+        username = '';
+        password = '';
         
     }
 
@@ -67,6 +70,8 @@
             currentErr = err;
         }
         
+        Nusername = '';
+        Npassword = '';
     }
 </script>
 <div id="login-register-flex">

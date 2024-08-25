@@ -1,7 +1,7 @@
 import { json } from "@sveltejs/kit";
 
 export async function POST({ locals, request, cookies }) {
-    // console.log(locals);
+    console.log(locals);
     
     // console.log(cookies);
 

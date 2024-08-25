@@ -50,11 +50,30 @@ app.post('/login', async (req, res) => {
     
     
     User.findOne({username}).then(user => {
-        console.log(user);
-
+        if(!user) { 
+            return res.json({
+                error: 'Incorrect username or password'
+            })
+        } else {
+            // user exists, now check password
+            if(bcrypt.compare(password, user.password)) {
+                // password matches
+                let token = jwt.sign({authedUser: {
+                    username,
+                }}, process.env.SECRET_JWT, {expiresIn: '24h'});
+                return res.json({token});
+            } else {
+                return res.json({
+                    error: "Incorrect username or password"
+                })
+            }
+        }
     })
-    .catch(err => {
-        console.error(err);
+    .catch(error => {
+        console.error(error);
+        return res.json({
+            error
+        })
     })
 
     // Check password
@@ -67,10 +86,44 @@ app.post('/login', async (req, res) => {
     
 });
 
-app.post('/register', (req, res) => {
+app.post('/register', async (req, res) => {
     console.log('r');
+    let username = req.body.username;
+    let password = req.body.password;
     // Check if username already exists in database
+    User.findOne({username}).then(async user => {
+        if(user) {
+            // user already exists, 
+            return res.json({
+                error: 'Username taken'
+            })
+        }
 
+        let newUser = new User;
+        newUser.username = username;
+        newUser.password = await bcrypt.hash(password, 12);
+        
+        try {
+            await newUser.save();
+            let token = jwt.sign({authedUser: {
+                username,
+            }}, process.env.SECRET_JWT, {expiresIn: '24h'});
+            return res.json({token});
+        }
+        catch(error) {
+            console.error(error);
+            return res.json({
+                error
+            })
+        }
+
+    })
+    .catch(error => {
+        console.error(error);
+        return res.json({
+            error
+        })
+    })
 
     // If it does not exist, add username + password
     // to database with encryption for password,
@@ -79,9 +132,7 @@ app.post('/register', (req, res) => {
 
     // If it does exist, do not add anything to database,
     // return an error message
-
-    //tmp
-    res.json(true)
+    
 })
 
 
