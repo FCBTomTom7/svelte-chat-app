@@ -2,6 +2,11 @@
     import { user } from '../user.js';
     import Join from '$lib/Join.svelte';
     import Login from '$lib/Login.svelte';
+
+    export let data;
+    console.log('/',data);
+    if($user === null && data.name !== null) $user = {name: data.name};
+    console.log('/', $user);
     $: loggedIn = $user !== null;
 
 </script>

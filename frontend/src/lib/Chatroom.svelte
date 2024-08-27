@@ -2,6 +2,9 @@
     import { io } from "socket.io-client";
     import { onMount } from 'svelte';
     import { roomID } from "../room";
+    import { user } from "../user";
+
+    
     const SOCKET_URL = "http://localhost:3000";
     const socket = io(SOCKET_URL);
     socket.emit('roomID', $roomID);
@@ -9,8 +12,10 @@
     let messageContainer;
     const maxMessages = 100;
     onMount(() => {
-        socket.on('message', m => {
-            appendMessage(m);
+        console.log($user);
+        socket.on('message', ({message, name}) => {
+            console.log(name);
+            appendMessage(message, name);
         })
 
         return () => {
@@ -19,7 +24,7 @@
     })
 
     const sendMessage = async () => {
-        if(!/^\s*$/.test(message)) socket.emit('message', message);
+        if(!/^\s*$/.test(message)) socket.emit('message', {message, name: $user});
         message = '';
     }
 
@@ -27,7 +32,7 @@
         if(e.key === 'Enter') sendMessage();
     }
 
-    const appendMessage = (text) => {
+    const appendMessage = (text, name) => {
         while(messageContainer.childNodes.length >= maxMessages) {
             messageContainer.removeChild(messageContainer.firstChild);
         }
