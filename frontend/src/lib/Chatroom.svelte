@@ -1,8 +1,10 @@
 <script>
     import { io } from "socket.io-client";
     import { onMount } from 'svelte';
+    import { roomID } from "../room";
     const SOCKET_URL = "http://localhost:3000";
     const socket = io(SOCKET_URL);
+    socket.emit('roomID', $roomID);
     let message = '';
     let messageContainer;
     const maxMessages = 100;
@@ -62,7 +64,7 @@
 </script>
 <svelte:window on:keypress={keyHandler} />
 
-
+<h2 id="room-id">Room {$roomID}</h2>
 <div class="chat-frame">
     <div id="message-container" bind:this={messageContainer}>
         <!-- <template>
@@ -80,8 +82,9 @@
 </div>
 
 <style>
-       
-
+    #room-id {
+        text-align: center;
+    }
     .chat-frame {
         width: 700px;
         height: 700px;

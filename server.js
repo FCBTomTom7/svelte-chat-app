@@ -137,9 +137,14 @@ app.post('/register', async (req, res) => {
 
 
 io.on('connection', socket => {
+    let roomID = 1;
     console.log('connection');
+    socket.on('roomID', id => {
+        roomID = id;
+        socket.join(id);
+    })  
     socket.on('message', message => {
-        io.emit('message', message);
+        io.to(roomID).emit('message', message);
     })
 })
 
