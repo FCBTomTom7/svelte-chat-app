@@ -5,11 +5,12 @@
 <div id="navbar-frame">
     <div id="route-links">
         <a id="home-link" href="/">Home</a>
-        <a id="chatroom-link" href="/chatroom">Chatroom</a>
+        <a id="chatroom-link" href="/chatroom" data-sveltekit-reload>Chatroom</a>
+        <div id="logout-link">
+            <Logout />
+        </div>
     </div>
-    <div id="logout-link">
-        <Logout />
-    </div>
+    
 </div>
 
 <style>
@@ -22,7 +23,7 @@
         justify-content: center;
         background-color: rgb(59, 55, 55);
         width: 100%;
-        height: 10%;
+        height: 4%;
         box-shadow: 0 -1px 3px 3px rgb(33, 31, 31);
     }
 
