@@ -25,6 +25,7 @@
         width: 100%;
         height: 4%;
         box-shadow: 0 -1px 3px 3px rgb(33, 31, 31);
+        z-index: 2;
     }
 
     #route-links {
