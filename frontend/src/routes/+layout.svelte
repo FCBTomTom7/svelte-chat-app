@@ -26,4 +26,16 @@
         background-color: #292828;
         color: rgb(174, 168, 168);
     }
+
+    :global(input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button){
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    /* Firefox */
+    :global(input[type=number]) {
+        -moz-appearance: textfield;
+        appearance: textfield;
+    }
 </style>

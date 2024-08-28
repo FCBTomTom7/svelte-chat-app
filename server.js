@@ -140,8 +140,8 @@ io.on('connection', socket => {
     let roomID = 1;
     console.log('connection');
     socket.on('roomID', id => {
-        roomID = id;
-        socket.join(id);
+        roomID = id !== undefined && id !== null ? id : 1;
+        socket.join(roomID);
     })  
     socket.on('message', ({message, name, color}) => {
         console.log(name);

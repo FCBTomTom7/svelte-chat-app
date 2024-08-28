@@ -57,15 +57,17 @@
         messageElement.innerHTML = '<span class="sender-name" style="color: ' + color + '">' + name + ': </span>' + text;
         messageFrame.appendChild(messageElement);
         messageContainer.appendChild(messageFrame);
-        // console.log('scroll height:', messageContainer.scrollHeight, '\nscroll top:', 
-        // messageContainer.scrollTop, '\nvisible height:', visibleHeight, '\nmessage height:', newMessageHeight);
-        if(messageContainer.scrollTop > 0 && messageContainer.scrollHeight - messageContainer.scrollTop < 
+        console.log('scroll height:', messageContainer.scrollHeight, '\nscroll top:', 
+        messageContainer.scrollTop, '\nvisible height:', visibleHeight, '\nmessage height:', newMessageHeight);
+        if(messageContainer.scrollHeight - messageContainer.scrollTop < 
         visibleHeight + newMessageHeight * 2) {
             // scroll
             autoscroll();
             
         }
-        
+        // scrollTop is area that is scrolled above visible area
+        // visible height is the amount of the element that can be seen at a time.
+        // scrollHeight is total length of the element
         
     }
 
