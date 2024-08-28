@@ -143,9 +143,9 @@ io.on('connection', socket => {
         roomID = id;
         socket.join(id);
     })  
-    socket.on('message', ({message, name}) => {
+    socket.on('message', ({message, name, color}) => {
         console.log(name);
-        io.to(roomID).emit('message', {message, name});
+        io.to(roomID).emit('message', {message, name, color});
     })
 })
 

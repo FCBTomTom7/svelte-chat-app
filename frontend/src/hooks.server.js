@@ -4,6 +4,7 @@ import { redirect } from "@sveltejs/kit";
 import jwt from 'jsonwebtoken';
 import { SECRET_JWT } from '$env/static/private';
 export async function handle({event, resolve}) {
+    console.log('handle');
     if(event.url.pathname === '/register') {
         let body = await event.request.json();
         event.locals.username = body.username;

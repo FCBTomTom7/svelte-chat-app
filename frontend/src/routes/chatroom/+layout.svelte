@@ -8,16 +8,31 @@
         padding: 5px;
         font-size: 1.25rem;
         word-wrap: break-word;
+        color: rgb(174, 168, 168);
     }
 
+    :global(.sender-name) {
+        font-weight: bold;
+    }
+
+    /* :global(.message, .sender-name) {
+        
+    } */
+
     :global(.message-frame:nth-child(even)) {
-        background-color: rgb(235, 235, 235);
+        background-color: rgb(32, 31, 31);
     }
 
     :global(.message-frame) {
         width: 100%;
-        border-bottom: 1px solid grey;
+        border-bottom: 1px solid rgb(32, 31, 31);;
         display: flex;
         align-items: center;
+        justify-content: center;
     }
+
+    /* #chat-main {
+        background-color: #343232;
+    } */
+
 </style>

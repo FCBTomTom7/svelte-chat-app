@@ -1,4 +1,8 @@
+<script>
+    import Navbar from "../lib/Navbar.svelte";
+</script>
 <div id="main">
+    <Navbar />
     <slot></slot>
 </div>
 
@@ -19,5 +23,7 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        background-color: #292828;
+        color: rgb(174, 168, 168);
     }
 </style>

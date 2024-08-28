@@ -7,15 +7,19 @@
     
     const SOCKET_URL = "http://localhost:3000";
     const socket = io(SOCKET_URL);
+    const colorOptions = ["#9c7c7c", "#d3c88c", "#425940", "#4F7876", "#736185"]
+    const nameColor = colorOptions[Math.floor(Math.random() * colorOptions.length)]
+
+
     socket.emit('roomID', $roomID);
     let message = '';
     let messageContainer;
     const maxMessages = 100;
     onMount(() => {
         console.log($user);
-        socket.on('message', ({message, name}) => {
+        socket.on('message', ({message, name, color}) => {
             console.log(name);
-            appendMessage(message, name);
+            appendMessage(message, name, color);
         })
 
         return () => {
@@ -24,7 +28,7 @@
     })
 
     const sendMessage = async () => {
-        if(!/^\s*$/.test(message)) socket.emit('message', {message, name: $user});
+        if(!/^\s*$/.test(message)) socket.emit('message', {message, name: $user.name, color: nameColor});
         message = '';
     }
 
@@ -32,29 +36,31 @@
         if(e.key === 'Enter') sendMessage();
     }
 
-    const appendMessage = (text, name) => {
+    const appendMessage = (text, name, color) => {
         while(messageContainer.childNodes.length >= maxMessages) {
             messageContainer.removeChild(messageContainer.firstChild);
         }
         // get values from previous last message to determine whether or not to scroll
         let lastMessage = messageContainer.lastElementChild;
-        let lastMessageStyles = lastMessage ? getComputedStyle(lastMessage) : null;
+        // let lastMessageStyles = lastMessage ? getComputedStyle(lastMessage) : null;
         // console.log(lastMessage);
         // console.log(lastMessageStyles);
         let visibleHeight = messageContainer.offsetHeight;
         let newMessageHeight = lastMessage?.offsetHeight;
-
         // append new message
         let messageFrame = document.createElement('div');
         messageFrame.className = 'message-frame';
+
         let messageElement = document.createElement('p');
         messageElement.className='message';
-        messageElement.innerHTML = text;
+        console.log(color);
+        messageElement.innerHTML = '<span class="sender-name" style="color: ' + color + '">' + name + ': </span>' + text;
         messageFrame.appendChild(messageElement);
         messageContainer.appendChild(messageFrame);
         // console.log('scroll height:', messageContainer.scrollHeight, '\nscroll top:', 
         // messageContainer.scrollTop, '\nvisible height:', visibleHeight, '\nmessage height:', newMessageHeight);
-        if(messageContainer.scrollTop > 0 && messageContainer.scrollHeight - messageContainer.scrollTop < visibleHeight + newMessageHeight * 1.25) {
+        if(messageContainer.scrollTop > 0 && messageContainer.scrollHeight - messageContainer.scrollTop < 
+        visibleHeight + newMessageHeight * 2) {
             // scroll
             autoscroll();
             
@@ -89,17 +95,24 @@
 <style>
     #room-id {
         text-align: center;
+        color: rgb(174, 168, 168);
+        font-weight: bolder;
+        font-size: 2rem;
+        background-color: #292828;
     }
     .chat-frame {
         width: 700px;
         height: 700px;
-        border: 1px solid black;
+        border: 1px solid rgb(32, 31, 31);
+        border-radius: 30px;
+        overflow: hidden;
+        box-shadow: 0 0 1px 1px rgb(32, 31, 31);
     }
 
     #message-container {
         width: 100%;
         height: 90%;
-        border-bottom: 1px solid black;
+        border-bottom: 1px solid rgb(32, 31, 31);;
         overflow: scroll;
     }
 
@@ -107,12 +120,14 @@
         width: 100%;
         height: 10%;
         display: flex;
-        align-items: center;
+        align-items: start;
+        
+
     }
 
     .chat-input {
         width: 90%;
-        height: 100%;
+        height: 65%;
         word-wrap: break-word;
         white-space: initial;
         font-size: 1.25rem;
@@ -120,6 +135,9 @@
         outline: none;
         border: none;
         padding: 2px;
+        background-color: #292828;
+        font-family: inherit;
+        color: rgb(174, 168, 168);
     }
 
     .submit-button-container {
@@ -133,7 +151,16 @@
     .submit-button {
         width: 75%;
         height: 50%;
-        border: 1px solid black;
+        border: 0;
+        outline: none;
         border-radius: 5px;
+        background-color: #565353;
+        font-family: inherit;
+        color: rgb(174, 168, 168);
+    }
+
+    .submit-button:hover {
+        background-color: rgb(53, 53, 53);
+        border: 1px solid rgb(174, 168, 168);
     }
 </style>
