@@ -104,7 +104,7 @@
 
 <h2 id="room-id">Room {$roomID}</h2>
 <div class="chat-frame">
-    <div id="message-container" bind:this={messageContainer} on:scroll={scrollHandler}>
+    <div id="message-container" class="scrollable" bind:this={messageContainer} on:scroll={scrollHandler}>
         <!-- <template>
             <div class="message-frame">
                 <p class="message"></p>
@@ -157,6 +157,7 @@
         height: 90%;
         border-bottom: 1px solid rgb(32, 31, 31);;
         overflow: scroll;
+        overflow-x: hidden;
     }
 
     .input-container {

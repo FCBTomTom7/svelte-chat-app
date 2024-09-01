@@ -30,6 +30,7 @@
 
     #route-links {
         width: 50%;
+        height: 100%;
         display: flex;
         justify-content: space-evenly;
         align-items: center;
