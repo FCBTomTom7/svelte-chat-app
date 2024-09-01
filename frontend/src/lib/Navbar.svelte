@@ -21,7 +21,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        background-color: rgb(59, 55, 55);
+        background-color: rgb(33, 31, 31);
         width: 100%;
         height: 4%;
         box-shadow: 0 -1px 3px 3px rgb(33, 31, 31);
@@ -37,7 +37,7 @@
 
     a {
         text-decoration: none;
-        color: rgb(174, 168, 168);
+        color: rgb(139, 143, 143);
         font-size: 1.25rem;
     }
 </style>

@@ -19,5 +19,6 @@
     p {
         cursor: pointer;
         font-size: 1.25rem;
+        color: rgb(139, 143, 143);
     }
 </style>

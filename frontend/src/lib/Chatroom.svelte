@@ -3,7 +3,7 @@
     import { onMount } from 'svelte';
     import { roomID } from "../room";
     import { user } from "../user";
-
+    import NewMessages from "./NewMessages.svelte";
     
     const SOCKET_URL = "http://localhost:3000";
     const socket = io(SOCKET_URL);
@@ -15,10 +15,17 @@
     let message = '';
     let messageContainer;
     const maxMessages = 100;
+
+    let scrollHeight;
+    let scrollTop;
+    let newMessageHeight;
+    let newMessageCount = 0;
+    let paused = false;
     onMount(() => {
+
         console.log($user);
         socket.on('message', ({message, name, color}) => {
-            console.log(name);
+            //console.log(name);
             appendMessage(message, name, color);
         })
 
@@ -46,20 +53,23 @@
         // console.log(lastMessage);
         // console.log(lastMessageStyles);
         let visibleHeight = messageContainer.offsetHeight;
-        let newMessageHeight = lastMessage?.offsetHeight;
+        newMessageHeight = lastMessage?.offsetHeight;
         // append new message
         let messageFrame = document.createElement('div');
         messageFrame.className = 'message-frame';
 
         let messageElement = document.createElement('p');
         messageElement.className='message';
-        console.log(color);
+        // console.log(color);
         messageElement.innerHTML = '<span class="sender-name" style="color: ' + color + '">' + name + ': </span>' + text;
         messageFrame.appendChild(messageElement);
         messageContainer.appendChild(messageFrame);
-        console.log('scroll height:', messageContainer.scrollHeight, '\nscroll top:', 
-        messageContainer.scrollTop, '\nvisible height:', visibleHeight, '\nmessage height:', newMessageHeight);
-        if(messageContainer.scrollHeight - messageContainer.scrollTop < 
+
+        scrollHeight = messageContainer.scrollHeight;
+        scrollTop = messageContainer.scrollTop;
+        // console.log('scroll height:', messageContainer.scrollHeight, '\nscroll top:', 
+        // messageContainer.scrollTop, '\nvisible height:', visibleHeight, '\nmessage height:', newMessageHeight);
+        if(scrollHeight - scrollTop < 
         visibleHeight + newMessageHeight * 2) {
             // scroll
             autoscroll();
@@ -69,17 +79,32 @@
         // visible height is the amount of the element that can be seen at a time.
         // scrollHeight is total length of the element
         
+        if(paused) {
+            newMessageCount++;
+        }
     }
 
     const autoscroll = () => {
         messageContainer.scrollTop = messageContainer.scrollHeight - messageContainer.offsetHeight;
     }
+
+    const scrollHandler = () => {
+        scrollHeight = messageContainer.scrollHeight;
+        scrollTop = messageContainer.scrollTop;
+
+        paused = messageContainer && scrollHeight - scrollTop >= 
+        messageContainer.offsetHeight + newMessageHeight * 2;
+
+        if(!paused) newMessageCount = 0;
+    }
+
+
 </script>
 <svelte:window on:keypress={keyHandler} />
 
 <h2 id="room-id">Room {$roomID}</h2>
 <div class="chat-frame">
-    <div id="message-container" bind:this={messageContainer}>
+    <div id="message-container" bind:this={messageContainer} on:scroll={scrollHandler}>
         <!-- <template>
             <div class="message-frame">
                 <p class="message"></p>
@@ -92,9 +117,25 @@
             <button type="submit" class="submit-button">Send</button>
         </div>
     </form>
+    {#if messageContainer && scrollHeight - scrollTop >= 
+        messageContainer.offsetHeight + newMessageHeight * 2}
+        <div id="new-messages-wrapper">
+            <NewMessages clickFunction={autoscroll} messageCount={newMessageCount}/>
+        </div>
+    {/if}
 </div>
 
 <style>
+    #new-messages-wrapper {
+        position: absolute;
+        top: 75%;
+        width: 700px;
+        height: 5%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
     #room-id {
         text-align: center;
         color: rgb(174, 168, 168);

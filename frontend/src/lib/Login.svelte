@@ -80,11 +80,11 @@
         <h1>Login</h1>
         <div>
             <label for="username">Username</label>
-            <input type="text" id="username" bind:value={username}/>
+            <input type="text" class="username" bind:value={username}/>
         </div>
         <div>
             <label for="password">Password</label>
-            <input type="password" id="password" bind:value={password}/>
+            <input type="password" class="password" bind:value={password}/>
         </div>
         <button type="submit" id="submit-login">Login</button>
     </form>
@@ -93,11 +93,11 @@
         <h1>Register</h1>
         <div>
             <label for="username">Username</label>
-            <input type="text" id="username" bind:value={Nusername} />
+            <input type="text" class="username" bind:value={Nusername} />
         </div>
         <div>
             <label for="password">Password</label>
-            <input type="password" id="password" bind:value={Npassword} />
+            <input type="password" class="password" bind:value={Npassword} />
         </div>
         <button type="submit" id="submit-register">Register</button>
     </form>
