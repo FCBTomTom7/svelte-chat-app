@@ -112,7 +112,7 @@
         </template> -->
     </div>
     <form class="input-container" on:submit|preventDefault={sendMessage}>
-        <textarea class="chat-input" bind:value={message} placeholder="Type your message here" />
+        <textarea class="chat-input scrollable" bind:value={message} placeholder="Type your message here" />
         <div class="submit-button-container">
             <button type="submit" class="submit-button">Send</button>
         </div>
@@ -158,7 +158,10 @@
         border-bottom: 1px solid rgb(32, 31, 31);;
         overflow: scroll;
         overflow-x: hidden;
+        /* scrollbar-color: rgb(104, 103, 103) transparent;
+        scrollbar-width: thin; */
     }
+
 
     .input-container {
         width: 100%;

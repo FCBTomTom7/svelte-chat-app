@@ -16,9 +16,6 @@
         font-weight: bold;
     }
 
-    /* :global(.message, .sender-name) {
-        
-    } */
 
     :global(.message-frame:nth-child(even)) {
         background-color: rgb(32, 31, 31);
@@ -32,43 +29,14 @@
         justify-content: center;
     }
 
-    /* #chat-main {
-        background-color: #343232;
-    } */
+    :global(.scrollable) {
+        scrollbar-width: none;
+        /* scrollbar-color: rgb(104, 103, 103) transparent; */
+        /* scrollbar-gutter: stable both-edges; */
+        /* overflow-y: overlay; */
+    }
 
     :global(::-webkit-scrollbar) {
-        display: block;
-        width: 7px;
-        border-radius: 20px;
+        display: none !important;
     }
-    :global(::-webkit-scrollbar-track) {
-        background: transparent;
-
-    }
-
-    :global(::-webkit-scrollbar-thumb) {
-        background-color: rgb(33, 31, 31);
-        border-radius: 20px;
-        border-right: none;
-        border-left: none;
-    }
-
-
-    :global(::-webkit-scrollbar-thumb:hover) {
-        background-color: rgb(33, 31, 31);
-    }
-
-    :global(::-webkit-scrollbar-track-piece:end) {
-        background: transparent;
-        margin-bottom: 5px;
-    }
-
-    :global(::-webkit-scrollbar-track-piece:start) {
-        background: transparent;
-        margin-top: 5px;
-    }
-/* 
-    :global(.scrollable) {
-        margin-right: calc(-1 * (700px - 100%));
-    } */
 </style>

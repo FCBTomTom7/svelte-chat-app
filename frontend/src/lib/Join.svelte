@@ -4,6 +4,7 @@
     let code;
     let error = '';
     async function handleSubmit() {
+        if(!code) code = 1;
         if(!/^[0-9]{0,4}$/.test(code.toString())) {
             // code isn't a number or isn't between 0-4 characters
             // or is negative
