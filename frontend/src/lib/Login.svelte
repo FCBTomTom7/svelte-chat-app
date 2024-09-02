@@ -110,18 +110,40 @@
         flex-direction: column;
         align-items: center;
         width: 100%;
-        height: 80%;
-        justify-content: space-evenly;
+        height: 70%;
+        justify-content: space-between;
     }
     
     .basic-form {
         width: 50%;
-        height: 50%;
+        height: 45%;
         padding-bottom: 2%;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: space-evenly;
+        border: 2px solid rgb(174, 168, 168);
+        border-radius: 15px;
+        background: rgb(50, 46, 46);
     }
 
+    label {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    button {
+        width: 10%;
+        border: none;
+        padding: 3px;
+        border-radius: 5px;
+    }
+
+    h1 {
+        text-align: center;
+    }
+
+    .username, .password {
+        outline: none;
+    }
 </style>

@@ -15,7 +15,15 @@
     :global(body) {
         width: 100vw;
         height: 100vh;
+        font-family: "Karla", sans-serif;
+        font-optical-sizing: auto;
+        font-style: normal;
     }
+
+    :global(input, button) {
+        font-family: inherit;
+    }
+
     #main {
         width: 100%;
         height: 100%;
@@ -24,7 +32,8 @@
         align-items: center;
         justify-content: center;
         background-color: #292828;
-        color: rgb(174, 168, 168);
+        /* color: rgb(174, 168, 168); */
+        color: #d4d4d4;
     }
 
     :global(input::-webkit-outer-spin-button,

@@ -138,7 +138,7 @@
 
     #room-id {
         text-align: center;
-        color: rgb(174, 168, 168);
+        /* color: rgb(174, 168, 168); */
         font-weight: bolder;
         font-size: 2rem;
         background-color: #292828;
