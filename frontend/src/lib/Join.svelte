@@ -13,7 +13,7 @@
         } else {
             error = '';
             $roomID = code;
-            await goto('/chatroom');
+            await goto('/chatroom', {invalidateAll: true});
         }
         
     }

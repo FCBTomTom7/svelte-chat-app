@@ -23,7 +23,7 @@
     let paused = false;
     onMount(() => {
 
-        console.log($user);
+        // console.log($user);
         socket.on('message', ({message, name, color}) => {
             //console.log(name);
             appendMessage(message, name, color);

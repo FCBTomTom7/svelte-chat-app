@@ -2,11 +2,12 @@
     import { user } from '../user.js';
     import Join from '$lib/Join.svelte';
     import Login from '$lib/Login.svelte';
-
+    // import {invalidateAll} from '$app/navigation';
+    // invalidateAll()
     export let data;
-    console.log('before logic');
-    console.log('/, data',data);
-    console.log('/, user', $user)
+    // console.log('before logic');
+    // console.log('/, data',data);
+    // console.log('/, user', $user)
     // $user = data.name ? {name: data.name} : null;
     // if($user === null && data.name !== null) {
     //     $user = {name: data.name};
@@ -18,9 +19,9 @@
     } else if(data.name === null) {
         $user = null;
     }
-    console.log('after logic');
-    console.log('/, data',data);
-    console.log('/, user', $user)
+    // console.log('after logic');
+    // console.log('/, data',data);
+    // console.log('/, user', $user);
     $: loggedIn = $user !== null;
 
 </script>

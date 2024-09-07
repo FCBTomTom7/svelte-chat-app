@@ -4,7 +4,7 @@
 
 <div id="navbar-frame">
     <div id="route-links">
-        <a id="home-link" href="/">Home</a>
+        <a id="home-link" href="/" data-sveltekit-reload>Home</a>
         <a id="chatroom-link" href="/chatroom" data-sveltekit-reload>Chatroom</a>
         <div id="logout-link">
             <Logout />

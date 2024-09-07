@@ -1,10 +1,13 @@
 <script>
     import { user } from "../user";
     import { goto } from '$app/navigation'
+
+    
     const logout = async() => {
         try {
             let resp = await fetch('/logout');
-            goto('/');
+            
+            goto('/', {invalidateAll: true});
             $user = null;
         }
         catch(error) {

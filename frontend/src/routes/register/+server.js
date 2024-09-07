@@ -1,7 +1,7 @@
 import { json } from "@sveltejs/kit";
 
 export async function POST({ locals, request, cookies }) {
-    console.log(locals);
+    console.log('/register locals', locals);
     
     // console.log(cookies);
     if(locals.auth) {
