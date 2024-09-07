@@ -8,7 +8,7 @@
         width: 100%;
         padding: 5px;
         font-size: 1.25rem;
-        word-wrap: break-word;
+        overflow-wrap: break-word;
         /* color: rgb(174, 168, 168); */
     }
 

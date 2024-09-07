@@ -49,14 +49,14 @@ app.post('/login', async (req, res) => {
 
     
     
-    User.findOne({username}).then(user => {
+    User.findOne({username}).then(async user => {
         if(!user) { 
             return res.json({
                 error: 'Incorrect username or password'
             })
         } else {
             // user exists, now check password
-            if(bcrypt.compare(password, user.password)) {
+            if(await bcrypt.compare(password, user.password)) {
                 // password matches
                 let token = jwt.sign({authedUser: {
                     username,
