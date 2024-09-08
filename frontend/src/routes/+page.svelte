@@ -28,10 +28,10 @@
 
 <div id="main-page-wrapper">
     {#if loggedIn}
-        <div class="join-container">
-            <h1 class="main-greeting" style="margin-top: -14%">Welcome back, {$user.name}</h1>
+        
+            <h1 class="main-greeting">Welcome back, {$user.name}</h1>
             <Join />
-        </div>
+        
     {:else}
         <h1 class="main-greeting">Welcome, please log in or register to begin chatting</h1>
         <Login />
@@ -50,14 +50,14 @@
     </div>
 {/if} -->
 <style>
-    .join-container {
+    /* .join-container {
         height: 100%;
         width: 100%;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-    }
+    } */
 
     #main-page-wrapper {
         width: 100%;
