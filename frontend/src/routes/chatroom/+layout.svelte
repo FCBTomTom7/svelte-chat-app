@@ -6,7 +6,7 @@
 
     :global(.message) {
         width: 100%;
-        padding: 5px;
+        padding: 6px;
         font-size: 1.25rem;
         overflow-wrap: break-word;
         /* color: rgb(174, 168, 168); */
@@ -24,9 +24,15 @@
     :global(.message-frame) {
         width: 100%;
         border-bottom: 1px solid rgb(32, 31, 31);
+        
         display: flex;
         align-items: center;
         justify-content: center;
+    }
+
+    :global(.message-frame:hover) {
+        background-color: #4a4949ac;
+        
     }
 
     :global(.scrollable) {

@@ -136,10 +136,6 @@ app.post('/register', async (req, res) => {
 })
 
 
-app.post('/verify', (req, res) => {
-    let cookie = req.body.cookie;
-})
-
 io.on('connection', socket => {
     let roomID = 1;
     console.log('connection');

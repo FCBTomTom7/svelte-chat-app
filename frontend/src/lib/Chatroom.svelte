@@ -128,9 +128,10 @@
 <style>
     #new-messages-wrapper {
         position: absolute;
-        top: 75%;
-        width: 700px;
-        height: 5%;
+        top: 80%;
+        left: 40%;
+        width: 20%;
+        height: 3.75%;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -143,19 +144,21 @@
         font-size: 2rem;
         background-color: #292828;
     }
+
     .chat-frame {
         width: 700px;
         height: 700px;
-        border: 1px solid rgb(32, 31, 31);
+        position: relative;
+        border: 2px solid rgb(123, 119, 119);
         border-radius: 30px;
         overflow: hidden;
-        box-shadow: 0 0 1px 1px rgb(32, 31, 31);
+        box-shadow: 0 0 5px 3px rgb(32, 31, 31);
     }
 
     #message-container {
         width: 100%;
         height: 90%;
-        border-bottom: 1px solid rgb(32, 31, 31);;
+        border-bottom: 2px solid rgb(123, 119, 119);
         overflow: scroll;
         overflow-x: hidden;
         /* scrollbar-color: rgb(104, 103, 103) transparent;
@@ -169,12 +172,13 @@
         display: flex;
         align-items: start;
         
-
+        position: relative;
     }
+
 
     .chat-input {
         width: 90%;
-        height: 65%;
+        height: 70%;
         word-wrap: break-word;
         white-space: initial;
         font-size: 1.25rem;
@@ -182,6 +186,7 @@
         outline: none;
         border: none;
         padding: 2px;
+        padding-left: 6px;
         background-color: #292828;
         font-family: inherit;
         color: rgb(174, 168, 168);
