@@ -22,17 +22,62 @@
     let newMessageCount = 0;
     let paused = false;
     onMount(() => {
-
+        socket.emit('new user', {username: $user ? $user.name : null, color: nameColor});
         // console.log($user);
         socket.on('message', ({message, name, color}) => {
             //console.log(name);
             appendMessage(message, name, color);
         })
 
+        socket.on('new user', ({username, color}) => {
+            appendNewUser(username, color);
+        })
         return () => {
             socket.removeAllListeners();
         }
     })
+
+    const appendNewUser = (name, color) => {
+        while(messageContainer.childNodes.length >= maxMessages) {
+            messageContainer.removeChild(messageContainer.firstChild);
+        }
+
+        let lastMessage = messageContainer.lastElementChild;
+        // let lastMessageStyles = lastMessage ? getComputedStyle(lastMessage) : null;
+        // console.log(lastMessage);
+        // console.log(lastMessageStyles);
+        let visibleHeight = messageContainer.offsetHeight;
+        newMessageHeight = lastMessage?.offsetHeight;
+        // append new message
+        let messageFrame = document.createElement('div');
+        messageFrame.className = 'message-frame';
+
+        let messageElement = document.createElement('p');
+        messageElement.className='message';
+        // console.log(color);
+        messageElement.innerHTML = name ? '<span class="sender-name" style="color: ' + color + '">' + name + ' </span>'
+        + 'has joined the chat' : 'Guest user has joined the chat';
+        messageFrame.appendChild(messageElement);
+        messageContainer.appendChild(messageFrame);
+
+        scrollHeight = messageContainer.scrollHeight;
+        scrollTop = messageContainer.scrollTop;
+        // console.log('scroll height:', messageContainer.scrollHeight, '\nscroll top:', 
+        // messageContainer.scrollTop, '\nvisible height:', visibleHeight, '\nmessage height:', newMessageHeight);
+        if(scrollHeight - scrollTop < 
+        visibleHeight + newMessageHeight * 2) {
+            // scroll
+            autoscroll();
+            
+        }
+        // scrollTop is area that is scrolled above visible area
+        // visible height is the amount of the element that can be seen at a time.
+        // scrollHeight is total length of the element
+        
+        if(paused) {
+            newMessageCount++;
+        }
+    }
 
     const sendMessage = async () => {
         if(!/^\s*$/.test(message)) socket.emit('message', {message, name: $user.name, color: nameColor});

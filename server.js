@@ -147,6 +147,9 @@ io.on('connection', socket => {
         console.log(name);
         io.to(roomID).emit('message', {message, name, color});
     })
+    socket.on('new user', ({username, color}) => {
+        io.to(roomID).emit('new user', ({username, color}))
+    })
 })
 
 http.listen(PORT, () => {
