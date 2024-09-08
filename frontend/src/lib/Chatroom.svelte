@@ -11,7 +11,7 @@
     const nameColor = colorOptions[Math.floor(Math.random() * colorOptions.length)]
 
 
-    socket.emit('roomID', $roomID);
+    socket.emit('socket info', {id: $roomID, username: $user.name, c: nameColor});
     let message = '';
     let messageContainer;
     const maxMessages = 100;
@@ -32,12 +32,16 @@
         socket.on('new user', ({username, color}) => {
             appendNewUser(username, color);
         })
+
+        socket.on('user left', ({name, color}) => {
+            appendNewUser(name, color, true);
+        })
         return () => {
             socket.removeAllListeners();
         }
     })
 
-    const appendNewUser = (name, color) => {
+    const appendNewUser = (name, color, left=false) => {
         while(messageContainer.childNodes.length >= maxMessages) {
             messageContainer.removeChild(messageContainer.firstChild);
         }
@@ -55,8 +59,14 @@
         let messageElement = document.createElement('p');
         messageElement.className='message';
         // console.log(color);
-        messageElement.innerHTML = name ? '<span class="sender-name" style="color: ' + color + '">' + name + ' </span>'
+        if(!left) {
+            messageElement.innerHTML = name ? '<span class="sender-name" style="color: ' + color + '">' + name + ' </span>'
         + 'has joined the chat' : 'Guest user has joined the chat';
+        } else {
+            messageElement.innerHTML = name ? '<span class="sender-name" style="color: ' + color + '">' + name + ' </span>'
+        + 'has left the chat' : 'Guest user has left the chat';
+        }
+        
         messageFrame.appendChild(messageElement);
         messageContainer.appendChild(messageFrame);
 
@@ -82,10 +92,6 @@
     const sendMessage = async () => {
         if(!/^\s*$/.test(message)) socket.emit('message', {message, name: $user.name, color: nameColor});
         message = '';
-    }
-
-    const keyHandler = (e) => {
-        if(e.key === 'Enter') sendMessage();
     }
 
     const appendMessage = (text, name, color) => {
@@ -143,9 +149,13 @@
         if(!paused) newMessageCount = 0;
     }
 
-
+    const textAreaHandler = (e) => {
+        if(e.key === 'Enter') {
+            e.preventDefault();
+            sendMessage();
+        }
+    }
 </script>
-<svelte:window on:keypress={keyHandler} />
 
 <h2 id="room-id">Room {$roomID}</h2>
 <div class="chat-frame">
@@ -157,7 +167,7 @@
         </template> -->
     </div>
     <form class="input-container" on:submit|preventDefault={sendMessage}>
-        <textarea class="chat-input scrollable" bind:value={message} placeholder="Type your message here" />
+        <textarea class="chat-input scrollable" bind:value={message} placeholder="Type your message here" on:keypress={textAreaHandler}/>
         <div class="submit-button-container">
             <button type="submit" class="submit-button">Send</button>
         </div>

@@ -138,10 +138,15 @@ app.post('/register', async (req, res) => {
 
 io.on('connection', socket => {
     let roomID = 1;
+    let name = '';
+    let color = 'white';
     console.log('connection');
-    socket.on('roomID', id => {
+    socket.on('socket info', ({id, username, c}) => {
         roomID = id !== undefined && id !== null ? id : 1;
+        name = username ? username : 'unknwon';
+        color = c ? c : "white";
         socket.join(roomID);
+
     })  
     socket.on('message', ({message, name, color}) => {
         console.log(name);
@@ -149,6 +154,11 @@ io.on('connection', socket => {
     })
     socket.on('new user', ({username, color}) => {
         io.to(roomID).emit('new user', ({username, color}))
+    })
+
+    socket.on('disconnect', () => {
+        io.to(roomID).emit('user left', ({name, color}))
+        socket.leave(roomID);
     })
 })
 

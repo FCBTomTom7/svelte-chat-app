@@ -3,16 +3,16 @@
     import { goto } from '$app/navigation';
     let code;
     let error = '';
-    let interval;
+    let timeout;
     async function handleSubmit() {
         if(!code && code !== 0) code = 1;
-        if(interval) clearTimeout(interval);
+        if(timeout) clearTimeout(timeout);
         if(!/^[0-9]{0,3}$/.test(code.toString())) {
             // code isn't a number or isn't between 0-4 characters
             // or is negative
             console.log('invalid');
             error = 'Invalid code';
-            interval = setTimeout(() => {
+            timeout = setTimeout(() => {
                 error = '';
                 console.log('error rid');
             }, 5000)

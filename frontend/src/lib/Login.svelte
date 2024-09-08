@@ -4,8 +4,13 @@
     let password = '';
     let Nusername = '';
     let Npassword = '';
-    let currentErr = '';
+    let currentLoginErr = '';
+    let currentRegErr = '';
+
+    let loginErrTimeout;
+    let regErrTimeout;
     const login = async () => {
+        clearTimeout(loginErrTimeout);
         try {
             let response = await fetch('http://localhost:5173/login', {
                 method: 'POST',
@@ -21,18 +26,28 @@
             if(response.status < 299) {
                 // good response
                 if(data.error) {
-                    currentErr = data.error;
+                    currentLoginErr = data.error;
+                    loginErrTimeout = setTimeout(() => {
+                        currentLoginErr = '';
+                    }, 5000)
                 } else {
-                    currentErr = '';
+                    clearTimeout(loginErrTimeout);
+                    currentLoginErr = '';
                 }
                 user.set(data.user);
             } else {
-                currentErr = 'Something went wrong. ' + response.status + ' status';
+                currentLoginErr = 'Something went wrong. ' + response.status + ' status';
+                loginErrTimeout = setTimeout(() => {
+                    currentLoginErr = '';
+                }, 5000)
             }
         }
         catch (err) {
             console.error(err);
-            currentErr = err;
+            currentLoginErr = err;
+            loginErrTimeout = setTimeout(() => {
+                    currentLoginErr = '';
+                }, 5000)
         }
 
         username = '';
@@ -41,6 +56,7 @@
     }
 
     const register = async () => {
+        clearTimeout(regErrTimeout);
         try {
             let response = await fetch('http://localhost:5173/register', {
                 method: 'POST',
@@ -56,18 +72,28 @@
             if(response.status < 299) {
                 // good response
                 if(data.error) {
-                    currentErr = data.error;
+                    currentRegErr = data.error;
+                    regErrTimeout = setTimeout(() => {
+                        currentRegErr = '';
+                    }, 5000)
                 } else {
-                    currentErr = '';
+                    clearTimeout(regErrTimeout);
+                    currentRegErr = '';
                 }
                 user.set(data.user);
             } else {
-                currentErr = 'Something went wrong. ' + response.status + ' status';
+                currentRegErr = 'Something went wrong. ' + response.status + ' status';
+                regErrTimeout = setTimeout(() => {
+                    currentRegErr = '';
+                }, 5000)
             }
         }
         catch (err) {
             console.error(err);
-            currentErr = err;
+            currentRegErr = err;
+            regErrTimeout = setTimeout(() => {
+                currentRegErr = '';
+            }, 5000)
         }
         
         Nusername = '';
@@ -78,11 +104,14 @@
 
     <form on:submit={login} class="basic-form">
         <h1>Login</h1>
-        <div>
+        <div class="label-input-wrapper">
+            {#if currentLoginErr}
+                <p class="error">{currentLoginErr}</p>
+            {/if}
             <label for="username">Username</label>
             <input required type="text" class="username" bind:value={username}/>
         </div>
-        <div>
+        <div class="label-input-wrapper">
             <label for="password">Password</label>
             <input required type="password" class="password" bind:value={password}/>
         </div>
@@ -91,11 +120,14 @@
     
     <form on:submit={register} class="basic-form">
         <h1>Register</h1>
-        <div>
+        <div class="label-input-wrapper">
+            {#if currentRegErr}
+                <p class="error">{currentRegErr}</p>
+            {/if}
             <label for="username">Username</label>
             <input required type="text" class="username" bind:value={Nusername} />
         </div>
-        <div>
+        <div class="label-input-wrapper">
             <label for="password">Password</label>
             <input rquired type="password" class="password" bind:value={Npassword} />
         </div>
@@ -105,6 +137,18 @@
 </div>
 
 <style>
+    .label-input-wrapper {
+        position: relative;
+    }
+
+    .error {
+        position: absolute;
+        color: rgb(211, 22, 22);
+        top: -0.8rem;
+        width: 120%;
+        font-size: .8rem;
+    }
+
     #login-register-flex {
         display: flex;
         flex-direction: column;
